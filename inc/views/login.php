@@ -37,7 +37,7 @@
 	<form class="form login-form w-50" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<div class="mb-3">
 			<label for="loginInput" class="form-label fw-bold">Email or Username</label>
-			<input id="loginInput" class="form-control" type="text" name="login" placeholder="john doe or email@email.com" aria-describedby="emailHelp" autofocus>
+			<input id="loginInput" class="form-control" type="text" name="login" placeholder="john doe or email@email.com" autofocus>
 			<?php
 				if ( !empty( $login_errors ) ) {
 					echo '<div class="errors-container mt-3">';

@@ -37,8 +37,9 @@ class Database {
 	 * @return Array if succes Boolean false if failure
 	*/
 	public function login( string $login, string $password ) {
-		$stmt = $this->db->prepare( 'SELECT * FROM users WHERE username = :login LIMIT 1' );
-		$stmt->bindValue( ':login', $login );
+		$stmt = $this->db->prepare( 'SELECT * FROM users WHERE (username = ? OR email = ?) LIMIT 1' );
+		$stmt->bindValue( 1, $login );
+		$stmt->bindValue( 2, $login );
 		$stmt->execute();
 		// Check if there's results with this name
 		if ( $stmt->rowCount() > 0 ) {
@@ -52,6 +53,22 @@ class Database {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * unique_record
+	 * Check if value exsits in unique column
+	 * 
+	 * @param string $table_name
+	 * @param string $column
+	 * @param string $value 
+	*/
+
+	public function unique_record( string $table_name, string $column, string $value ) {
+		$stmt = $this->db->prepare( "SELECT $column FROM $table_name WHERE $column = ?" );
+		$stmt->bindValue(1, $value);
+		$stmt->execute();
+		return $stmt->rowCount() > 0 ? true : false;
 	}
 
 }
