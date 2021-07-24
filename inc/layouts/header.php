@@ -1,3 +1,6 @@
+<?php
+	include_once dirname( __FILE__, 2 ) . DIRECTORY_SEPARATOR . 'init.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
