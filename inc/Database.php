@@ -30,4 +30,28 @@ class Database {
 		}
 	}
 
+	/**
+	 * Login method
+	 * @param String $login username or email
+	 * @param String $password Hashed password
+	 * @return Array if succes Boolean false if failure
+	*/
+	public function login( string $login, string $password ) {
+		$stmt = $this->db->prepare( 'SELECT * FROM users WHERE username = :login LIMIT 1' );
+		$stmt->bindValue( ':login', $login );
+		$stmt->execute();
+		// Check if there's results with this name
+		if ( $stmt->rowCount() > 0 ) {
+			$result = $stmt->fetch();
+			// Check if the passwords are matches
+			if ( password_verify( $password, $result['password'] ) ) {
+				return $result;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
 }
