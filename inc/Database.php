@@ -56,6 +56,41 @@ class Database {
 	}
 
 	/**
+	 * signup method
+	 * Register a new user, and create his profile
+	 * 
+	 * @param string $username
+	 * @param string $email
+	 * @param string $password hashed
+	*/
+
+	public function signup( string $username, string $email, string $password ) {
+		try {
+			$this->db->beginTransaction();
+			$stmt = $this->db->prepare( "INSERT INTO users (username, email, password) VALUES (:uname, :email, :pass)" );
+			$stmt->execute([
+				':uname'	=> $username,
+				':email'	=> $email,
+				':pass'	=> $password
+			]);
+			$count = $stmt->rowCount();
+			if ( $count > 0 ) {
+				// Create profile record
+				$last_id = $this->db->lastInsertId();
+				$profile = $this->db->prepare( "INSERT INTO profiles (user_id) values (:userid)" );
+				$profile->bindValue( ':userid', $last_id );
+				$profile->execute();
+				$profile_count = $profile->rowCount();
+			}
+			$this->db->commit();
+			return ( $count > 0 && isset( $profile_count ) && $profile_count > 0 ? true : false);
+		} catch ( PDOException $e ) {
+			$this->db->rollBack();
+			echo $e->getMessage();
+		}
+	}
+
+	/**
 	 * unique_record
 	 * Check if value exsits in unique column
 	 * 

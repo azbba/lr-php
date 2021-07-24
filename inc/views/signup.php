@@ -48,7 +48,17 @@
 
 		// Check if there's no errors
 		if ( empty($username_errors) && empty($email_errors) && empty($password_errors) && empty($repassword_errors) ) {
-			
+			$hash_password = password_hash( $password, PASSWORD_DEFAULT );
+			$register = $db->signup( $username, $email, $hash_password );
+			if ( $register ) {
+				
+				/**
+				 * TODO:
+				 * redirect to login form
+				 * save username and password in the seassion
+				 */
+
+			}
 		}
 
 	}
