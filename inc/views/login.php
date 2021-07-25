@@ -9,7 +9,7 @@
 		$password_errors 	= $validate->validate_password( $password, false );
 
 		// Check there's no errors
-		if ( empty( $login_errors ) && empty( $password_errors ) ) {
+		if ( $validate->error_count == 0  ) {
 			$logged = $db->login( $login, $password );
 			// Check if the username and the password are correct
 			if ( !empty( $logged ) && $logged !== false ) {

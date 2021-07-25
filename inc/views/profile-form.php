@@ -2,6 +2,35 @@
 	if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 		if ( isset( $_POST['profile_form'] ) && isset( $_POST['lform'] ) ) {
 			// Profile validation
+			$firstname		= filter_var( $_POST['firstname'], FILTER_SANITIZE_STRING );
+			$lastname		= filter_var( $_POST['lastname'], FILTER_SANITIZE_STRING );
+			$bio				= filter_var( $_POST['bio'], FILTER_SANITIZE_STRING );
+			$gender			= filter_var( $_POST['gender'], FILTER_SANITIZE_NUMBER_INT );
+			$birthdate		= filter_var( $_POST['birthdate'], FILTER_SANITIZE_STRING );
+			$phone_number	= filter_var( $_POST['phone_number'], FILTER_SANITIZE_STRING );
+			$address			= filter_var( $_POST['address'], FILTER_SANITIZE_STRING );
+			$city				= filter_var( $_POST['city'], FILTER_SANITIZE_STRING );
+			$country			= filter_var( $_POST['country'], FILTER_SANITIZE_STRING );
+			$code_postal	= filter_var( $_POST['code_postal'], FILTER_SANITIZE_NUMBER_INT );
+
+			// Start our validation
+			$firstname_errors 	= $validate->validate_length( 'First name', $firstname, 50 );
+			$lastname_errors 		= $validate->validate_length( 'Last name', $lastname, 50 );
+			$bio_errors 			= $validate->validate_length( 'Bio', $bio, 255 );
+			$gender_errors 		= $validate->validate_gender( $gender );
+			$birthdate_errors 	= $validate->validate_birthdate( $birthdate );
+			$phone_errors 			= $validate->validate_phone_number( $phone_number );
+			$address_errors 		= $validate->validate_length( 'Address', $address, 255 );
+			$city_errors 			= $validate->validate_length( 'City', $city, 100 );
+			$country_errors 		= $validate->validate_length( 'Country', $country, 50 );
+			$code_postal_errors 	= $validate->validate_postal_code( $code_postal );
+			
+			// Check if there's no errors
+			if ( $validate->error_count == 0 ) {
+
+				// TODO:: Update profile
+
+			}
 		}
 	}
 ?>
@@ -26,9 +55,10 @@
 	</div>
 	<div class="mb-3">
 		<label for="gender" class="form-label fw-bold">Gender</label>
-		<select name="gender" id="gender" class="form-control"> 				
-			<option value="0" <?php echo $user_data['gender'] == 0 ? 'selected' : ''; ?>>Female</option>
-			<option value="1" <?php echo $user_data['gender'] == 1 ? 'selected' : ''; ?>>Male</option>
+		<select name="gender" id="gender" class="form-control">
+				<option value="" selected>Select Your gender</option>
+				<option value="0" <?php echo $user_data['gender'] == 0 && ! is_null( $user_data['gender'] ) ? 'selected' : ''; ?>>Female</option>
+				<option value="1" <?php echo $user_data['gender'] == 1 ? 'selected' : ''; ?>>Male</option>
 		</select>
 		<?php form_errors( ( isset( $gender_errors ) ? $gender_errors : [] ) ); ?>
 	</div>

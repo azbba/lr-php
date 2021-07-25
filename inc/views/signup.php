@@ -13,7 +13,7 @@
 		$repassword_errors 	= $validate->validate_repassword( $password, $repassword );
 
 		// Check if there's no errors
-		if ( empty($username_errors) && empty($email_errors) && empty($password_errors) && empty($repassword_errors) ) {
+		if ( $validate->error_count == 0 ) {
 			$hash_password = password_hash( $password, PASSWORD_DEFAULT );
 			$register = $db->signup( $username, $email, $hash_password );
 			if ( $register ) {

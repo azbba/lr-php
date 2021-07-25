@@ -13,8 +13,27 @@ class Validation {
 	private const MAX_PASSWORD_LENGTH = 255;
 	private const MIN_PASSWORD_LENGTH = 8;
 
+	private const MAX_PHONE_NUMBER_LENGTH = 15;
+	private const MAX_POSTAL_CODE_LENGTH = 5;
+
+	public int $error_count = 0;
+
 	public function __construct( Database $db ) {
 		$this->db = $db;
+	}
+
+	/**
+	 * error_counter()
+	 * Method to count form errors
+	 * 
+	 * if $count == 0 that's mean there's no validation errors.
+	 * if $count > 0 that's mean there's validation errors.
+	 * 
+	 * 
+	 * @param int $count
+	*/
+	private function error_counter( int $count ) {
+		$this->error_count += $count;
 	}
 
 	/**
@@ -38,6 +57,7 @@ class Validation {
 				$errors[] = 'This <strong>Username</strong> already exists.';
 			}
 		}
+		$this->error_counter( count( $errors ) );
 		return ! empty( $errors ) ? $errors : [];
 	}
 
@@ -57,6 +77,7 @@ class Validation {
 		if ( $this->db->unique_record( 'users', 'email', $email ) ) {
 			$errors[] = 'This <strong>Email</strong> already exists.';
 		}
+		$this->error_counter( count( $errors ) );
 		return ! empty( $errors ) ? $errors : [];
 	}
 
@@ -75,6 +96,7 @@ class Validation {
 				$errors[] = 'The <strong>Password</strong> field must be between ' . self::MIN_PASSWORD_LENGTH . ' and ' . self::MAX_PASSWORD_LENGTH . ' characters.';
 			}
 		}
+		$this->error_counter( count( $errors ) );
 		return ! empty( $errors ) ? $errors : [];
 	}
 
@@ -88,6 +110,99 @@ class Validation {
 		if ( $password !== $repassword ) {
 			$errors[] = 'The <strong>Passwords</strong> do not match';
 		}
+		$this->error_counter( count( $errors ) );
+		return ! empty( $errors ) ? $errors : [];
+	}
+
+	/**
+	 * Validate length
+	 * @param string $name 
+	*/
+
+	public function validate_length( string $field, string $value, int $length ) {
+		$errors = [];
+		if ( strlen( $value ) > $length ) {
+			$errors[] = 'The <strong> ' . $field . ' </strong> must be less than ' . $length . ' characters.';
+		}
+		$this->error_counter( count( $errors ) );
+		return ! empty( $errors ) ? $errors : []; 
+	}
+
+	/**
+	 * validate boolean
+	 * @param int $gender
+	*/
+
+	public function validate_gender( int $gender ) {
+		$errors = [];
+		$options = [
+			"options" => [
+				"min_range" => 0 ,
+				"max_range"=> 1
+			]
+		];
+		if ( filter_var( $gender, FILTER_VALIDATE_INT, $options ) === false ) {
+			$errors[] = 'The <strong>Gender</strong> must be male or female.';
+		}
+		$this->error_counter( count( $errors ) );
+		return ! empty( $errors ) ? $errors : []; 
+	}
+
+	/**
+	 * Validate birthdate 
+	 * @param string $birthdate
+	*/
+
+	public function validate_birthdate( string $birthdate ) {
+		$errors = [];
+		if ( !empty( $birthdate ) ) {
+			$date = explode('-', $birthdate);
+			if ( checkdate( $date[1], $date[2], $date[0] ) === false ) {
+				$errors[] = 'The <strong>birth date</strong>must be valid date.';
+			}
+		}
+		$this->error_counter( count( $errors ) );
+		return ! empty( $errors ) ? $errors : []; 
+	}
+
+	/**
+	 * Validate phone number
+	 * @param string $phone_number
+	*/
+
+	public function validate_phone_number( string $phone_number ) {
+		$errors = [];
+		if ( !empty( $phone_number ) ) {
+			if( preg_match("/^[0-9 +]/", $phone_number) < 1 ) {
+				$errors[] = 'The <strong>Phone number</strong> must be valide phone number.';
+			}
+			if ( strlen( $phone_number ) > self::MAX_PHONE_NUMBER_LENGTH ) {
+				$errors[] = 'The <strong>Phone number</strong> must be less than ' . self::MAX_PHONE_NUMBER_LENGTH . ' Digit.';
+			}
+		}
+		$this->error_counter( count( $errors ) );
+		return ! empty( $errors ) ? $errors : []; 
+	}
+
+	/**
+	 * validate postal code
+	 * @param int $postal_code 
+	*/
+
+	public function validate_postal_code( string $postal_code ) {
+		$errors = [];
+		if ( !empty( $postal_code ) ) {
+			if ( strlen( $postal_code ) != self::MAX_POSTAL_CODE_LENGTH ) {
+				$errors[] = 'The <strong>Postal code</strong> must be equal to ' . self::MAX_POSTAL_CODE_LENGTH . ' Digit.';
+			}
+			if( preg_match("/^[0-9]/", $postal_code) < 1 ) { 
+				// filter_var will sanitize the $postal_code.
+				// This error will not appear ever.
+				// Only for an extra validation.
+				$errors[] = 'The <strong>Postal code</strong> must be a number.';
+			}
+		}
+		$this->error_counter( count( $errors ) );
 		return ! empty( $errors ) ? $errors : [];
 	}
 
