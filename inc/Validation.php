@@ -22,7 +22,7 @@ class Validation {
 	 * @param string $username
 	*/
 
-	public function validate_username( string $username ) {
+	public function validate_username( string $username, bool $singup = true ) {
 		$errors = [];
 		// Check if the user didn't enter the username
 		if ( empty( $username ) ) {
@@ -32,8 +32,11 @@ class Validation {
 		if ( strlen( $username ) < self::MIN_USERNAME_LENGTH || strlen( $username ) > self::MAX_USERNAME_LENGTH ) {
 			$errors[] = 'The <strong>Username</strong> field must be between ' . self::MIN_USERNAME_LENGTH . ' and ' . self::MAX_USERNAME_LENGTH . ' characters.';
 		}
-		if ( $this->db->unique_record( 'users', 'username', $username ) ) {
-			$errors[] = 'This <strong>Username</strong> already exists.';
+		// Validate only on signup form
+		if ( $singup ) {
+			if ( $this->db->unique_record( 'users', 'username', $username ) ) {
+				$errors[] = 'This <strong>Username</strong> already exists.';
+			}
 		}
 		return ! empty( $errors ) ? $errors : [];
 	}
@@ -62,13 +65,15 @@ class Validation {
 	 * @param string $password
 	*/
 
-	public function validate_password( string $password ) {
+	public function validate_password( string $password, bool $singup = true ) {
 		$errors = [];
 		if ( empty( $password ) ) {
 			$errors[] = 'The <strong>Password</strong> field is required';
 		}
-		if ( strlen( $password ) < self::MIN_PASSWORD_LENGTH || strlen( $password ) > self::MAX_PASSWORD_LENGTH ) {
-			$errors[] = 'The <strong>Password</strong> field must be between ' . self::MIN_PASSWORD_LENGTH . ' and ' . self::MAX_PASSWORD_LENGTH . ' characters.';
+		if ( $singup ) {
+			if ( strlen( $password ) < self::MIN_PASSWORD_LENGTH || strlen( $password ) > self::MAX_PASSWORD_LENGTH ) {
+				$errors[] = 'The <strong>Password</strong> field must be between ' . self::MIN_PASSWORD_LENGTH . ' and ' . self::MAX_PASSWORD_LENGTH . ' characters.';
+			}
 		}
 		return ! empty( $errors ) ? $errors : [];
 	}

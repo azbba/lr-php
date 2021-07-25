@@ -5,8 +5,8 @@
 		$password 	= filter_var( $_POST['password'], FILTER_SANITIZE_STRING );
 
 		// Start our validation
-		$login_errors	 	= $validate->validate_username( $login );
-		$password_errors 	= $validate->validate_password( $password );
+		$login_errors	 	= $validate->validate_username( $login, false );
+		$password_errors 	= $validate->validate_password( $password, false );
 
 		// Check there's no errors
 		if ( empty( $login_errors ) && empty( $password_errors ) ) {
