@@ -65,78 +65,26 @@
 ?>
 <h1 class="page-title text-center fw-bolder">Signup</h1>
 <div class="d-flex justify-content-center">
-	<form class="form login-form w-50" action="<?php echo $_SERVER['PHP_SELF'] . '?page=signup'; ?>" method="post" autocomplete="off">
+	<form class="form signup-form w-50" action="<?php echo $_SERVER['PHP_SELF'] . '?page=signup'; ?>" method="post" autocomplete="off">
 		<div class="mb-3">
 			<label for="userInput" class="form-label fw-bold">Username</label>
 			<input id="userInput" class="form-control" type="text" name="username" placeholder="john doe" autofocus>
-			<?php
-				if ( !empty( $username_errors ) ) {
-					echo '<div class="errors-container mt-3">';
-					foreach ( $username_errors as $error ) {
-						?>
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-								<?php echo $error; ?>
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							</div>
-						<?php
-					}
-					echo '</div>';
-				}
-			?>
+			<?php form_errors( ( isset( $username_errors ) ? $username_errors : [] ) ); ?>
 		</div>
 		<div class="mb-3">
 			<label for="emailInput" class="form-label fw-bold">Email</label>
 			<input id="emailInput" class="form-control" type="email" name="email" placeholder="email@email.com" aria-describedby="emailHelp">
-			<?php
-				if ( !empty( $email_errors ) ) {
-					echo '<div class="errors-container mt-3">';
-					foreach ( $email_errors as $error ) {
-						?>
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-								<?php echo $error; ?>
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							</div>
-						<?php
-					}
-					echo '</div>';
-				}
-			?>
+			<?php form_errors( ( isset( $email_errors ) ? $email_errors : [] ) ); ?>
 		</div>
 		<div class="mb-3">
 			<label for="passwordInput" class="form-label fw-bold">Password</label>
 			<input id="passwordInput" class="form-control" type="password" name="password" placeholder="Your password">
-			<?php
-				if ( !empty( $password_errors ) ) {
-					echo '<div class="errors-container mt-3">';
-					foreach ( $password_errors as $error ) {
-						?>
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-								<?php echo $error; ?>
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							</div>
-						<?php
-					}
-					echo '</div>';
-				}
-			?>
+			<?php form_errors( ( isset( $password_errors ) ? $password_errors : [] ) ); ?>
 		</div>
 		<div class="mb-3">
 			<label for="repasswordInput" class="form-label fw-bold">Confirm Password</label>
 			<input id="repasswordInput" class="form-control" type="password" name="repassword" placeholder="Confirm your password">
-			<?php
-				if ( !empty( $repassword_errors ) ) {
-					echo '<div class="errors-container mt-3">';
-					foreach ( $repassword_errors as $error ) {
-						?>
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-								<?php echo $error; ?>
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							</div>
-						<?php
-					}
-					echo '</div>';
-				}
-			?>
+			<?php form_errors( ( isset( $repassword_errors ) ? $repassword_errors : [] ) ); ?>
 		</div>
 		<input type="submit" class="btn btn-danger" value="Signup">
 	</form>

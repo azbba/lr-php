@@ -106,4 +106,37 @@ class Database {
 		return $stmt->rowCount() > 0 ? true : false;
 	}
 
+	/**
+	 * get_record()
+	 * 
+	 * @param string $table_name
+	 * @param string $column
+	 * @param string $value
+	*/
+
+	public function user_info( string $table_name, string $column, string $value ) {
+		$stmt = $this->db->prepare( "SELECT * FROM $table_name where $column = ? LIMIT 1" );
+		$stmt->bindValue(1, $value);
+		$stmt->execute();
+		return $stmt->rowCount() > 0 ? $stmt->fetch() : false;
+	}
+
+	/**
+	 * join
+	 * join two tables
+	 * 
+	 * @param string $table1
+	 * @param string $table2
+	 * @param string $column1
+	 * @param string $column2
+	 * @param int $where
+	*/
+
+	public function join( string $table1, string $table2, string $column1, string $column2, int $where) {
+		$stmt = $this->db->prepare( "SELECT * FROM $table1 INNER JOIN $table2 ON $table1.$column1 = $table2.$column2 WHERE $table1.$column1 = ?" );
+		$stmt->bindValue( 1, $where );
+		$stmt->execute();
+		return $stmt->rowCount() > 0 ? $stmt->fetch() : false;
+	}
+
 }

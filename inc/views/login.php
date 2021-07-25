@@ -24,6 +24,12 @@
 			if ( !empty( $logged ) && $logged !== false ) {
 				
 				// Start the seassion
+				$_SESSION['login'] = true;
+				$_SESSION['username'] = $logged['username'];
+				$_SESSION['user_id'] = $logged['id'];
+				// Redirect to profile page
+				header( 'Location: /' );
+				exit();
 
 			} else {
 				$login_errors[] = 'the <strong>Username</strong> or <strong>Password</strong> Is Incorrect';
@@ -38,38 +44,12 @@
 		<div class="mb-3">
 			<label for="loginInput" class="form-label fw-bold">Email or Username</label>
 			<input id="loginInput" class="form-control" type="text" name="login" placeholder="john doe or email@email.com" autofocus>
-			<?php
-				if ( !empty( $login_errors ) ) {
-					echo '<div class="errors-container mt-3">';
-					foreach ( $login_errors as $error ) {
-						?>
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-								<?php echo $error; ?>
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							</div>
-						<?php
-					}
-					echo '</div>';
-				}
-			?>
+			<?php form_errors( ( isset( $login_errors ) ? $login_errors : [] ) ); ?>
 		</div>
 		<div class="mb-3">
 			<label for="passwordInput" class="form-label fw-bold">Password</label>
 			<input id="passwordInput" class="form-control" type="password" name="password" placeholder="Your password">
-			<?php
-				if ( !empty( $password_errors ) ) {
-					echo '<div class="errors-container mt-3">';
-					foreach ( $password_errors as $error ) {
-						?>
-							<div class="alert alert-danger alert-dismissible fade show" role="alert">
-								<?php echo $error; ?>
-								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-							</div>
-						<?php
-					}
-					echo '</div>';
-				}
-			?>
+			<?php form_errors( isset( $password_errors ) ? $password_errors : [] ); ?>
 		</div>
 		<input type="submit" class="btn btn-primary" value="login">
 	</form>

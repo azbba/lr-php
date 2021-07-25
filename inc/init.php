@@ -7,6 +7,9 @@
  * If you do not use that file, you must include it manually in your file.
 */
 
+// Start the session
+session_start();
+
 include_once 'config.php';
 
 // Error mode
@@ -18,3 +21,6 @@ date_default_timezone_set( TIME_ZONE );
 // Connection class
 include_once APP_ROOT . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR . 'Database.php';
 $db = new Database();
+
+// Helper functions
+include_once APP_ROOT . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR . 'functions.php';
