@@ -3,8 +3,13 @@
 	include 'inc/layouts/header.php';
 
 	if ( isset( $_SESSION['login'] ) && $_SESSION['login'] == true ) {
-		// If the user logged in include profile page
-		include 'inc/views/profile.php';
+		if ( isset( $_GET['page'] ) && $_GET['page'] == 'logout' ) {
+			// If the user request logout include logout page
+			include 'inc/views/logout.php';
+		} else {
+			// If the user logged in include profile page
+			include 'inc/views/profile.php';
+		}
 	} else {
 		// If the user not logged in ( 
 		if ( isset( $_GET['page'] ) && $_GET['page'] == 'signup' ) {
