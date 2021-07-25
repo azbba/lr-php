@@ -22,5 +22,8 @@ date_default_timezone_set( TIME_ZONE );
 include_once APP_ROOT . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR . 'Database.php';
 $db = new Database();
 
+include_once APP_ROOT . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR . 'Validation.php';
+$validate = new Validation( $db );
+
 // Helper functions
 include_once APP_ROOT . DIRECTORY_SEPARATOR . 'inc' . DIRECTORY_SEPARATOR . 'functions.php';

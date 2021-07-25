@@ -5,17 +5,8 @@
 		$password 	= filter_var( $_POST['password'], FILTER_SANITIZE_STRING );
 
 		// Start our validation
-		$login_errors = [];
-		$password_errors = [];
-
-		// Check if login or password fields are empty
-		if ( empty( $login ) ) {
-			$login_errors[] = 'The <strong>username or email</strong> fields are required to loggin';
-		}
-
-		if ( empty( $password ) ) {
-			$password_errors[] = 'The <strong>Password</strong> field is required to loggin';
-		}
+		$login_errors	 	= $validate->validate_username( $login );
+		$password_errors 	= $validate->validate_password( $password );
 
 		// Check there's no errors
 		if ( empty( $login_errors ) && empty( $password_errors ) ) {
@@ -43,7 +34,7 @@
 	<form class="form login-form w-50" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 		<div class="mb-3">
 			<label for="loginInput" class="form-label fw-bold">Email or Username</label>
-			<input id="loginInput" class="form-control" type="text" name="login" placeholder="john doe or email@email.com" autofocus>
+			<input id="loginInput" class="form-control" type="text" name="login" placeholder="john doe or email@email.com" value="<?php login_saved_input(); ?>">
 			<?php form_errors( ( isset( $login_errors ) ? $login_errors : [] ) ); ?>
 		</div>
 		<div class="mb-3">
