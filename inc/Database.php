@@ -11,6 +11,16 @@ class Database {
 
 	// PDO object
 	protected $db;
+	// Databales tables
+	protected $users_table = [
+		// Do not insert columns that have a default value
+		'username', 'email', 'password'
+	];
+	protected $profiles_table = [
+		'firstname', 'lastname', 'bio',
+		'gender', 'birthdate', 'phone_number',
+		'address', 'city', 'country', 'code_postal'
+	];
 	
 	/**
 	 * Connection to database 
@@ -137,6 +147,37 @@ class Database {
 		$stmt->bindValue( 1, $where );
 		$stmt->execute();
 		return $stmt->rowCount() > 0 ? $stmt->fetch() : false;
+	}
+
+	/**
+	 *  
+	*/
+
+	public function update( string $table, array $columns, int $where ) {
+		if ( !empty( $columns ) ) {
+			// Compare db table with $columns keys
+			$table_prefix = $table . '_table';
+			$columns_keys = array_keys( $columns );
+			if ( $columns_keys == $this->$table_prefix ) {
+				// Generate the query
+				$query = '';
+				foreach ( $columns_keys as $column ) {
+					$query .= "$column = :$column, ";
+				}
+				// Update the table
+				$stmt = $this->db->prepare( "UPDATE $table SET $query updated_at = CURRENT_TIMESTAMP WHERE id = :id" );
+				// Bind values
+				foreach ( $columns as $key => $value ) {
+					$stmt->bindValue( ":$key", $value );
+				}
+				// Bind $where and updated_at values
+				$stmt->bindValue( ':id', $where );
+				$stmt->execute();
+				return $stmt->rowCount() > 0 ? true : false;
+			}
+			return false;
+		}
+		return false;
 	}
 
 }

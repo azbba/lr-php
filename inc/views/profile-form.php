@@ -27,9 +27,23 @@
 			
 			// Check if there's no errors
 			if ( $validate->error_count == 0 ) {
-
-				// TODO:: Update profile
-
+				// Update columns
+				$columns = [
+					'firstname'		=> $firstname,
+					'lastname'		=> $lastname,
+					'bio'				=> $bio,
+					'gender'			=> $gender,
+					'birthdate'		=> $birthdate,
+					'phone_number'	=> $phone_number,
+					'address'		=> $address,
+					'city'			=> $city,
+					'country'		=> $country,
+					'code_postal'	=> $code_postal
+				];
+				$update = $db->update( 'profiles', $columns, $_SESSION['user_id'] );
+				if ( $update ) {
+					$success_msg = 'The <strong>Profile</strong> has been updated successfully';
+				}
 			}
 		}
 	}
@@ -37,6 +51,7 @@
 
 <form class="form profile-form" action="<?php echo $_SERVER['PHP_SELF'] . '?page=profile&form=profile'; ?>" method="post" autocomplete="off">
 	<p class="text-muted">Profile information</p>
+	<?php success_msg( ( isset( $success_msg ) ? $success_msg : '' ) ); ?>
 	<input type="hidden" name="profile_form" value="1">
 	<div class="mb-3">
 		<label for="firstName" class="form-label fw-bold">First name</label>
@@ -56,9 +71,8 @@
 	<div class="mb-3">
 		<label for="gender" class="form-label fw-bold">Gender</label>
 		<select name="gender" id="gender" class="form-control">
-				<option value="" selected>Select Your gender</option>
-				<option value="0" <?php echo $user_data['gender'] == 0 && ! is_null( $user_data['gender'] ) ? 'selected' : ''; ?>>Female</option>
-				<option value="1" <?php echo $user_data['gender'] == 1 ? 'selected' : ''; ?>>Male</option>
+			<option value="0" <?php echo $user_data['gender'] == 0 && ! is_null( $user_data['gender'] ) ? 'selected' : ''; ?>>Female</option>
+			<option value="1" <?php echo $user_data['gender'] == 1 ? 'selected' : ''; ?>>Male</option>
 		</select>
 		<?php form_errors( ( isset( $gender_errors ) ? $gender_errors : [] ) ); ?>
 	</div>

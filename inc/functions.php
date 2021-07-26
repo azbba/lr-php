@@ -25,6 +25,21 @@ function form_errors( array $errors ) {
 }
 
 /**
+ * Success message 
+*/
+
+function success_msg( string $msg ) {
+	if ( !empty( $msg ) ) {
+		?>
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				<?php echo $msg; ?>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		<?php
+	}
+}
+
+/**
  * login_saved_input()
  * Function to reprint login input value after submit the form 
 */
