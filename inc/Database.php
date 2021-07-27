@@ -168,6 +168,11 @@ class Database {
 				$stmt = $this->db->prepare( "UPDATE $table SET $query updated_at = CURRENT_TIMESTAMP WHERE id = :id" );
 				// Bind values
 				foreach ( $columns as $key => $value ) {
+					if (empty( $value)) {
+						// Convert empty strings to null
+						// To fix invalid datatype of birthdate
+						$value = NULL;
+					}
 					$stmt->bindValue( ":$key", $value );
 				}
 				// Bind $where and updated_at values

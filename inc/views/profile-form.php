@@ -42,7 +42,12 @@
 				];
 				$update = $db->update( 'profiles', $columns, $_SESSION['user_id'] );
 				if ( $update ) {
-					$success_msg = 'The <strong>Profile</strong> has been updated successfully';
+					// Refersh the page to display new data
+					// Number of seconds before refresh the page
+					$seconds = 3;
+					$success_msg = 'The <strong>Profile</strong> has been updated successfully, Refresh in <span id="refershCounter" class="fw-bold" data-seconds="' . $seconds . '">'. $seconds .'</span> seconds';
+					// Refresh the page
+					header( "Refresh:$seconds" );
 				}
 			}
 		}
