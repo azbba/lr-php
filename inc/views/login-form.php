@@ -4,6 +4,8 @@
 			// login form validation
 		}
 	}
+	// Get user data
+	$user_data = $db->get_record( 'users', 'id', $_SESSION['user_id'] );
 ?>
 
 <form class="form login-form" action="<?php echo $_SERVER['PHP_SELF'] . '?page=profile&form=login'; ?>" method="post" autocomplete="off">

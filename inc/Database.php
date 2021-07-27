@@ -117,6 +117,22 @@ class Database {
 	}
 
 	/**
+	 * get_all
+	 * 
+	 * @param string $table_name
+	 * @param int $where (id value)
+	*/
+
+	public function get_all( string $table_name, int $where = 0 ) {
+		$query = $where !== 0 ? "WHERE id = :id": '';
+		$stmt = $this->db->prepare( "SELECT * FROM $table_name $query" );
+		$stmt->execute(
+			$where !== 0 ? [ ':id' => $where ] : []
+		);
+		return $stmt->rowCount() > 0 ? $stmt->fetchAll() : false;
+	}
+
+	/**
 	 * get_record()
 	 * 
 	 * @param string $table_name
@@ -124,7 +140,7 @@ class Database {
 	 * @param string $value
 	*/
 
-	public function user_info( string $table_name, string $column, string $value ) {
+	public function get_record( string $table_name, string $column, string $value ) {
 		$stmt = $this->db->prepare( "SELECT * FROM $table_name where $column = ? LIMIT 1" );
 		$stmt->bindValue(1, $value);
 		$stmt->execute();

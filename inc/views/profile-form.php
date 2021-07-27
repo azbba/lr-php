@@ -42,16 +42,23 @@
 				];
 				$update = $db->update( 'profiles', $columns, $_SESSION['user_id'] );
 				if ( $update ) {
+					// Always true because updated_at column updated automatically, every time we submit the form 
+					$success_msg = 'The <strong>Profile</strong> has been updated successfully';
+					/*
+					// Refersh the page if you use join() method to fetch data
 					// Refersh the page to display new data
 					// Number of seconds before refresh the page
 					$seconds = 3;
 					$success_msg = 'The <strong>Profile</strong> has been updated successfully, Refresh in <span id="refershCounter" class="fw-bold" data-seconds="' . $seconds . '">'. $seconds .'</span> seconds';
 					// Refresh the page
 					header( "Refresh:$seconds" );
+					*/
 				}
 			}
 		}
 	}
+	// Get profile data
+	$user_data = $db->get_record( 'profiles', 'user_id', $_SESSION['user_id'] );
 ?>
 
 <form class="form profile-form" action="<?php echo $_SERVER['PHP_SELF'] . '?page=profile&form=profile'; ?>" method="post" autocomplete="off">
