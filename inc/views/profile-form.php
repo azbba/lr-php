@@ -45,7 +45,7 @@
 					// Always true because updated_at column updated automatically, every time we submit the form 
 					$success_msg = 'The <strong>Profile</strong> has been updated successfully';
 					/*
-					// Refersh the page if you use join() method to fetch data
+					// Refersh the page if you use join() method.
 					// Refersh the page to display new data
 					// Number of seconds before refresh the page
 					$seconds = 3;

@@ -117,6 +117,23 @@ class Database {
 	}
 
 	/**
+	 * record_not_in()
+	 * 
+	 * @param string $table_name
+	 * @param string $column
+	 * @param string $value
+	 * @param int $id
+	*/
+
+	public function record_not_in( string $table_name, string $column, string $value, int $id ) {
+		$stmt = $this->db->prepare( "SELECT $column FROM $table_name WHERE $column = ? AND id != ?" );
+		$stmt->bindValue( 1, $value );
+		$stmt->bindValue( 2, $id, PDO::PARAM_INT );
+		$stmt->execute();
+		return $stmt->rowCount() > 0 ? true : false;
+	}
+
+	/**
 	 * get_all
 	 * 
 	 * @param string $table_name

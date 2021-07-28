@@ -41,7 +41,7 @@ class Validation {
 	 * @param string $username
 	*/
 
-	public function validate_username( string $username, bool $singup = true ) {
+	public function validate_username( string $username, bool $singup = true, bool $update = false, int $id = 0 ) {
 		$errors = [];
 		// Check if the user didn't enter the username
 		if ( empty( $username ) ) {
@@ -57,6 +57,12 @@ class Validation {
 				$errors[] = 'This <strong>Username</strong> already exists.';
 			}
 		}
+		if ( $update ) {
+			// Validate user input when update the account.
+			if ( $this->db->record_not_in( 'users', 'username', $username, $id ) ) {
+				$errors[] = 'This <strong>Username</strong> already exists.';
+			}
+		}
 		$this->error_counter( count( $errors ) );
 		return ! empty( $errors ) ? $errors : [];
 	}
@@ -66,7 +72,7 @@ class Validation {
 	 * @param string $email
 	*/
 
-	public function validate_email( string $email ) {
+	public function validate_email( string $email, bool $update, int $id = 0 ) {
 		$errors = [];
 		if ( empty( $email ) ) {
 			$errors[] = 'The <strong>Email</strong> field is required';
@@ -74,8 +80,16 @@ class Validation {
 		if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) === false ) {
 			$errors[] = 'The <strong>Email</strong> field must be a valid email address.';
 		}
-		if ( $this->db->unique_record( 'users', 'email', $email ) ) {
-			$errors[] = 'This <strong>Email</strong> already exists.';
+		if ( ! $update ) {
+			if ( $this->db->unique_record( 'users', 'email', $email ) ) {
+				$errors[] = 'This <strong>Email</strong> already exists.';
+			}
+		}
+		if ( $update ) {
+			// Validate user input when update the account.
+			if ( $this->db->record_not_in( 'users', 'email', $email, $id ) ) {
+				$errors[] = 'This <strong>Email</strong> already exists.';
+			}
 		}
 		$this->error_counter( count( $errors ) );
 		return ! empty( $errors ) ? $errors : [];
@@ -107,10 +121,28 @@ class Validation {
 
 	public function validate_repassword( string $password, string $repassword ) {
 		$errors = [];
+		if ( empty( $password ) ) {
+			$errors[] = 'The <strong>Password</strong> field is required';
+		}
 		if ( $password !== $repassword ) {
 			$errors[] = 'The <strong>Passwords</strong> do not match';
 		}
 		$this->error_counter( count( $errors ) );
+		return ! empty( $errors ) ? $errors : [];
+	}
+
+	/**
+	 * 
+	*/
+
+	public function validate_oldpassword( string $oldpassword, string $oldpass ) {
+		$errors = [];
+		if ( empty( $oldpassword ) ) {
+			$errors[] = 'The <strong>Old Password</strong> field is required';
+		}
+		if ( !empty($oldpassword) && ! password_verify( $oldpassword, $oldpass ) ) {
+			$errors[] = 'The <strong>Old Password</strong> do not match with our records.';
+		}
 		return ! empty( $errors ) ? $errors : [];
 	}
 
