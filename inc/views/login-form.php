@@ -40,7 +40,7 @@
 ?>
 
 <form class="form login-form" action="<?php echo $_SERVER['PHP_SELF'] . '?page=profile&form=login'; ?>" method="post" autocomplete="off">
-	<p class="text-muted">Login information</p>
+	<h3 class="form-title">Login information</h3>
 	<?php success_msg( ( isset( $success_msg_login ) ? $success_msg_login : '' ) ); ?>
 	<input type="hidden" name="login_form" value="1">
 	<div class="mb-3">
@@ -64,5 +64,5 @@
 		<input id="newPasswordInput" class="form-control" type="password" name="newpassword" placeholder="Tape a new password">
 		<?php form_errors( ( isset( $newpassword_errors ) ? $newpassword_errors : [] ) ); ?>
 	</div>
-	<input type="submit" class="btn btn-danger" name="lform" value="Update">
+	<input type="submit" class="btn btn-success" name="lform" value="Update">
 </form>

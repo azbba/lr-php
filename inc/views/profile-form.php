@@ -62,7 +62,7 @@
 ?>
 
 <form class="form profile-form" action="<?php echo $_SERVER['PHP_SELF'] . '?page=profile&form=profile'; ?>" method="post" autocomplete="off">
-	<p class="text-muted">Profile information</p>
+	<h3 class="form-title">Profile information</h3>
 	<?php success_msg( ( isset( $success_msg ) ? $success_msg : '' ) ); ?>
 	<input type="hidden" name="profile_form" value="1">
 	<div class="mb-3">

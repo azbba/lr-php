@@ -19,6 +19,7 @@
 			if ( $register ) {
 				// Redirect to login page
 				$_SESSION['email'] = $email;
+				$_SESSION['create_account'] = 'Your account has been created successfully, logged in and enjoy';
 				header( 'Location: /' );
 			}
 		}
@@ -28,6 +29,13 @@
 <h1 class="page-title text-center fw-bolder">Signup</h1>
 <div class="d-flex justify-content-center">
 	<form class="form signup-form w-50" action="<?php echo $_SERVER['PHP_SELF'] . '?page=signup'; ?>" method="post" autocomplete="off">
+		<?php
+			if ( isset( $_SESSION['delete_account'] ) && ! empty( $_SESSION['delete_account'] ) ) {
+				success_msg( $_SESSION['delete_account'] );
+				// Display this message only once 
+				unset( $_SESSION['delete_account'] );
+			}
+		?>
 		<div class="mb-3">
 			<label for="userInput" class="form-label fw-bold">Username</label>
 			<input id="userInput" class="form-control" type="text" name="username" placeholder="john doe" value="<?php echo ( isset( $_POST['username'] ) ? $_POST['username'] : '' ); ?>">

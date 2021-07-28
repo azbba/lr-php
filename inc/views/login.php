@@ -32,6 +32,13 @@
 <h1 class="page-title text-center fw-bolder">Login</h1>
 <div class="d-flex justify-content-center">
 	<form class="form login-form w-50" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+		<?php
+			if ( isset( $_SESSION['create_account'] ) && ! empty( $_SESSION['create_account'] ) ) {
+				success_msg( $_SESSION['create_account'] );
+				// Display this message only once 
+				unset( $_SESSION['create_account'] );
+			}
+		?>
 		<div class="mb-3">
 			<label for="loginInput" class="form-label fw-bold">Email or Username</label>
 			<input id="loginInput" class="form-control" type="text" name="login" placeholder="john doe or email@email.com" value="<?php login_saved_input(); ?>">

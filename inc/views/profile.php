@@ -10,6 +10,8 @@
 <div class="row">
 	<div class="col-md-3">
 		<?php include 'login-form.php'; ?>
+		<!-- Delete account modal -->
+		<?php include 'delete-account.php'; ?>
 	</div>  <!-- .col -->
 	<div class="col-md-9">
 		<?php include 'profile-form.php'; ?>

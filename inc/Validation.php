@@ -72,7 +72,7 @@ class Validation {
 	 * @param string $email
 	*/
 
-	public function validate_email( string $email, bool $update, int $id = 0 ) {
+	public function validate_email( string $email, bool $update = false, int $id = 0 ) {
 		$errors = [];
 		if ( empty( $email ) ) {
 			$errors[] = 'The <strong>Email</strong> field is required';
@@ -135,14 +135,15 @@ class Validation {
 	 * 
 	*/
 
-	public function validate_oldpassword( string $oldpassword, string $oldpass ) {
+	public function validate_oldpassword( string $oldpassword, string $oldpass, string $field = 'Old Password' ) {
 		$errors = [];
 		if ( empty( $oldpassword ) ) {
-			$errors[] = 'The <strong>Old Password</strong> field is required';
+			$errors[] = 'The <strong>' . $field . '</strong> field is required';
 		}
 		if ( !empty($oldpassword) && ! password_verify( $oldpassword, $oldpass ) ) {
-			$errors[] = 'The <strong>Old Password</strong> do not match with our records.';
+			$errors[] = 'The <strong>' . $field . '</strong> do not match with our records.';
 		}
+		$this->error_counter( count( $errors ) );
 		return ! empty( $errors ) ? $errors : [];
 	}
 

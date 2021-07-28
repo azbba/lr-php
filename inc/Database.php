@@ -183,7 +183,11 @@ class Database {
 	}
 
 	/**
-	 *  
+	 * update()
+	 * 
+	 * @param string $table
+	 * @param array $columns
+	 * @param int $where[id == column]
 	*/
 
 	public function update( string $table, array $columns, int $where ) {
@@ -216,6 +220,20 @@ class Database {
 			return false;
 		}
 		return false;
+	}
+
+	/**
+	 * delete()
+	 * 
+	 * @param string $table_name
+	 * @param int $where[id == column]
+	*/
+
+	public function delete( string $table_name, int $where ) {
+		$stmt = $this->db->prepare( "DELETE FROM $table_name WHERE id = :id" );
+		$stmt->bindValue( ':id', $where, PDO::PARAM_INT );
+		$stmt->execute();
+		return $stmt->rowCount() > 0 ? true : false;
 	}
 
 }
