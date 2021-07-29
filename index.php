@@ -6,6 +6,9 @@
 		if ( isset( $_GET['page'] ) && $_GET['page'] == 'logout' ) {
 			// If the user request logout include logout page
 			include 'inc/views/logout.php';
+		} elseif ( isset( $_GET['page'] ) && $_GET['page'] == 'dashboard' ) {
+			// if admin request dashboard page
+			include 'inc/views/dashboard.php';
 		} else {
 			// If the user logged in include profile page
 			include 'inc/views/profile.php';

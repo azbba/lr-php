@@ -35,8 +35,15 @@
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="/?page=logout">logout</a>
-									</li>
+									</li>									
 								<?php
+								if ( isset( $_SESSION['role'] ) && $_SESSION['role'] == 'admin' ) {
+									?>
+										<li class="nav-item">
+											<a class="nav-link" href="/?page=dashboard">Dashboard</a>
+										</li>	
+									<?php
+								}
 							} else {
 								?>
 									<li class="nav-item">

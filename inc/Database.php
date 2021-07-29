@@ -100,6 +100,12 @@ class Database {
 		}
 	}
 
+	public function query( string $query, array $columns = [] ) {
+		$stmt = $this->db->prepare( $query );
+		$stmt->execute($columns);
+		return $stmt->rowCount() > 0 ? $stmt->fetch() : false;
+	}
+
 	/**
 	 * unique_record
 	 * Check if value exsits in unique column
@@ -234,6 +240,27 @@ class Database {
 		$stmt->bindValue( ':id', $where, PDO::PARAM_INT );
 		$stmt->execute();
 		return $stmt->rowCount() > 0 ? true : false;
+	}
+
+	/**
+	 * count() 
+	 * 
+	 * @param string $table_name
+	 * @param string $column
+	 * @param int $where[id == column]
+	*/
+
+	public function count( string $table_name, string $column, $where = null ) {
+		$query = "SELECT count($column) FROM $table_name";
+		if ( !is_null( $where ) ) {
+			$query = "SELECT count($column) FROM $table_name WHERE $column = ?";
+		}
+		$stmt = $this->db->prepare( $query );
+		if ( !is_null( $where ) ) {
+			$stmt->bindValue( 1, $where );
+		}
+		$stmt->execute();
+		return $stmt->fetchColumn();
 	}
 
 }

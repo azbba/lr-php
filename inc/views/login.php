@@ -15,9 +15,10 @@
 			if ( !empty( $logged ) && $logged !== false ) {
 				
 				// Start the seassion
-				$_SESSION['login'] = true;
-				$_SESSION['username'] = $logged['username'];
-				$_SESSION['user_id'] = $logged['id'];
+				$_SESSION['login'] 		= true;
+				$_SESSION['username'] 	= $logged['username'];
+				$_SESSION['user_id'] 	= $logged['id'];
+				$_SESSION['role'] 		= $logged['role'] == 0 ? 'user' : 'admin';
 				// Redirect to profile page
 				header( 'Location: /' );
 				exit();

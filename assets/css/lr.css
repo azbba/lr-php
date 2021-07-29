@@ -8,4 +8,25 @@ html {
 
 body {
 	font-family: 'Roboto', sans-serif;
+	background-color: #f9f9f9;
+}
+
+/**
+Design dashboard page
+*/
+
+.statistics .stat .icon i {
+	font-size: 3rem;
+}
+
+.statistics .all-stat .icon {
+	background-color: #0a60e0;
+}
+
+.statistics .admins-stat .icon {
+	background-color: #c72333;
+}
+
+.statistics .users-stat .icon {
+	background-color: #0c6f41;
 }
