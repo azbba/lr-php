@@ -16,7 +16,7 @@
 					<i class="las la-users"></i>
 				</div>
 				<div class="data flex-grow-1 p-4">
-					<h4>All users</h4>
+					<h4>Members</h4>
 					<span><?php echo $db->count( 'users', 'id' ) ?></span>
 				</div>
 			</div>
